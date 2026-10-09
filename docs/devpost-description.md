@@ -1,62 +1,59 @@
 # CareSwitch
 
-**Tagline:** Your movement. Your message. A private, head-controlled communication board with free multilingual speech.
+**Your movement. Your message.** An on-device, head-controlled communication board with free multilingual speech.
 
 ## Inspiration
 
-A person may know exactly what they want to say but find speaking or using a touchscreen difficult. In a care conversation, even "Yes", "Please explain that again", or "I need a break" can help someone express a preference. CareSwitch explores a low-cost way to select those messages using voluntary head movement and an ordinary webcam.
+A person may know exactly what they want to say but find speaking or using a touchscreen difficult. During a care conversation, even “Yes”, “Please explain that again”, or “I need a break” can help express a preference. CareSwitch explores an ordinary-webcam input option for people who can comfortably and voluntarily move their head, together with helpers who can assist with setup.
 
-The intended users are people who have difficulty speaking or using their hands, but can comfortably and voluntarily move their head, together with helpers who can assist with setup. This is a student prototype; it has not been tested with intended users or validated for clinical use.
+Rather than asking a language model for healthcare advice, the project uses AI to make a communication board reachable. Existing assistive communication tools already exist; our contribution is this focused integration of comfortable calibration, deliberate confirmation and free local multilingual speech. Potential impact remains to be evaluated with intended users.
 
 ## What it does
 
-CareSwitch is an interactive communication board that runs in the browser. The user enables the camera, sets a comfortable movement range, and guides an in-app pointer to one of six editable messages. Holding on a card creates a draft. A separate Confirm or Cancel step keeps the user's choice explicit. Only a confirmed message appears as the final message and is spoken.
+The user enables the camera and follows five movement-range prompts. Their movement guides an in-app pointer over six editable messages. Holding over a card selects a silent draft. After leaving the target, the user holds over Confirm or Cancel. Only confirmation produces the final visible message and speech.
 
-Prepared message packs cover English, Urdu, Arabic, Hindi, Spanish, French, German, and Chinese. The app tries a matching local device voice first, then offers a bundled, free eSpeak NG voice. A Free built-in voice setting lets users select that fallback directly. Confirmed text remains visible if sound is blocked. Read again retries playback. The interface supports mouse, keyboard and touch as well as camera input, and adapts to small screens.
+Prepared packs cover English, Urdu, Arabic, Hindi, Spanish, French, German and Chinese, with right-to-left message display for Urdu/Arabic. A matching local device voice is preferred; bundled eSpeak NG provides free fallback speech without a paid API. Read again retries audio, and confirmed text remains visible if playback fails. Mouse, keyboard and touch alternatives support helpers and practice. Responsive layouts adapt to small browser viewports.
 
-"Please call my caregiver" is a message for a nearby listener. CareSwitch does not place calls or send alerts.
+“Please call my caregiver” reads a request to a nearby listener. It does not place a call or send an alert.
 
 ## How we built it
 
-The app uses HTML, CSS and JavaScript modules with no server application or paid API. MediaPipe Face Landmarker detects facial landmarks inside a local Web Worker. A five-step calibration maps the nose landmark's position into the communication board's pointer range. This is head control, not eye-gaze tracking or face identification.
+HTML, CSS and JavaScript modules run as a static browser app. A pretrained MediaPipe Face Landmarker runs in a local Web Worker. Five-position calibration maps nose-landmark coordinates into the board's pointer range. This is head control, not eye gaze or face identification.
 
-Median filtering, a deadband, smoothing and a speed limit make the pointer easier to hold. Dwell selection pauses when the face is missing, multiple faces appear, tracking becomes stale, a dialog opens, or the tab is hidden. A deliberate release separates card selection from confirmation. These controls reduce accidental activation but do not establish clinical safety.
+Median filtering, an 8-pixel deadband, smoothing and a 480-pixel/second cap steady movement. Hold time, sensitivity and smoothing can be adjusted. Missing/multiple faces, stale tracking, dialogs and tab hiding stop dwell selection; hiding the tab also stops the camera. A separate release and confirmation step reduce unintended activation.
 
-Free speech uses a separate worker and bundled WebAssembly eSpeak NG runtime. It synthesizes text on the device, with no text sent to a speech service. eSpeak NG is rule-based speech synthesis; the AI component is the pretrained face-landmark model. Third-party licenses and source references are included in the code package.
+Speech uses a matching browser-marked local voice or a separate eSpeak NG WebAssembly worker and Web Audio. Text is synthesized on the device. eSpeak NG is rule-based; the AI component is the face-landmark model. There is no backend, patient database, participant-supplied paid API key or application upload of camera frames/messages. Hosts receive normal asset requests. The bundled MediaPipe runtime also has usage/performance telemetry to Google; this version does not claim zero external traffic.
 
-AI assistance was used for ideation, coding, debugging, UI refinement, testing and documentation. The solo student participant is responsible for reviewing the work and presenting its limitations accurately.
+AI tools assisted planning, coding, debugging, UI refinement, tests and documentation. Syed Kaif Ali is the solo student participant and must review and accurately present the work. Third-party licenses and source references are included.
 
-## Challenges we ran into
+## Challenges and accomplishments
 
-Camera preview could start while the browser's video playback promise stayed pending. We changed startup to wait for usable frames with a timeout. Early pointer movement was too fast and jittery, so we added filtering and bounded motion. Device speech initially worked only for installed languages; the bundled speech engine made all eight message languages available without a paid API. On short phone screens, we compacted active camera controls and made settings scroll within the screen.
+Camera preview could play while its playback promise remained pending; startup now waits for usable frames with timeout/cancellation. An initially fast/jittery pointer led to filtering and bounded motion. Installed voices initially limited language support; bundled free synthesis added eight prepared language options. Compact layouts were adjusted to keep setup controls available and settings scrollable.
 
-## Accomplishments that we're proud of
+Four regression scripts cover calibration/dwell, pointer stability, camera startup and speech cancellation/failure paths. Actual bundled model and speech-engine browser checks supplement them. The creator reported head control working on their laptop. Responsive checks used browser viewports, not physical-phone trials, and audio completion does not prove pronunciation quality.
 
-- A working interaction from head movement to draft, separate confirmation and spoken message.
-- On-device face processing and speech, with no app database, camera recording or uploaded camera frames.
-- Eight prepared message languages, editable phrases, right-to-left message display and free speech fallback.
-- Responsive communication controls with touch and keyboard alternatives.
-- Tests for calibration, dwell, pointer filtering, camera startup and cancellation of stale speech.
+## What we learned and what's next
 
-## What we learned
+Useful healthcare AI can remove an input barrier without generating medical answers. Predictable phrases, reviewable drafts and explicit user control matter as much as the model.
 
-Useful AI can remove an input barrier without generating medical advice. A small number of predictable, editable phrases can be easier to review than open-ended generated messages. Calibration, readable targets, explicit confirmation and honest failure states matter as much as the model. Multilingual audio generation alone does not prove good pronunciation or usability.
+Next steps are consent-based feedback from intended users and accessibility specialists, fluent-speaker review, physical-phone testing and fully translated setup instructions. Current limits include an English UI, eight prepared packs, synthetic pronunciation, Arabic vowel-mark requirements, helper-assisted setup and unverified comfort/fatigue. No intended-user or clinical trial has been performed.
 
-## What's next for CareSwitch
+CareSwitch does not diagnose, prescribe, infer pain/emotions, replace a clinician or act as an emergency system.
 
-The next step is consent-based feedback from intended users and accessibility specialists: comfortable movement, fatigue, accidental selections, setup assistance, and pronunciation. Future work could include fully translated setup instructions, additional message layouts and alternative input methods. Current limits include an English setup interface, only eight prepared message packs, synthetic voice quality, and unverified performance on physical phones. Arabic custom phrases need vowel marks for the bundled engine. No clinical outcome or universal device support is claimed.
+## About the presentation
 
-CareSwitch supports communication. It does not diagnose, prescribe, infer pain or emotions, replace a clinician, or function as an emergency alert.
+The 2:57 video uses edited actual app screenshots in mouse practice mode, synthetic English narration and burned-in captions. The head-control workflow is explained, not recorded live. It is not a patient trial or a continuous recording of head selection.
 
 ## Built with
 
-HTML5, CSS3, JavaScript, Web Workers, WebAssembly, MediaPipe Face Landmarker, eSpeak NG, Web Audio API, SpeechSynthesis, GitHub.
+HTML5, CSS3, JavaScript, Web Workers, WebAssembly, MediaPipe Face Landmarker, eSpeak NG, Web Audio, SpeechSynthesis and GitHub Pages.
 
-## Links for the form
+## Project resources
 
-- Source: https://github.com/syedkaifali96/careswitch
-- Existing hosted prototype: https://careswitch-demo.syedkaifali96.chatgpt.site/
-- Hosted prototype currently requires owner sign-in. Do not use it as the sole judge demo link until access is changed or an open deployment is verified.
-- Video URL: add only after a demo video is uploaded and its viewer access is checked.
+- [Interactive demo](https://syedkaifali96.github.io/careswitch/)
+- [Source repository](https://github.com/syedkaifali96/careswitch)
+- [Presentation video](https://youtu.be/PYqF6pDfuLU)
+- [One-page description](CareSwitch-project-description.pdf)
+- [Reviewed code PDF](CareSwitch-code.pdf)
 
-Only the narrative sections above belong in the public project story; the form notes are preparation notes.
+This is the finished English narrative for review. Updating this local document does not update the currently saved Devpost draft; submission state is recorded separately in the checklist.

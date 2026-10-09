@@ -1,51 +1,65 @@
-# CareSwitch prototype verification · 7 October 2026
+# CareSwitch verification record
 
-## Verified
+Consolidated 10 October 2026. Earlier checks took place during development on 7–9 October; the source-ZIP regression run and package review were checked on 10 October. No app code was changed by the current documentation revision.
 
-- JavaScript syntax checks passed for the application and vision worker.
-- Calibration tests passed: neutral position, mirrored horizontal movement, vertical movement, inadequate movement range, and inadequate samples.
-- Dwell tests passed: one activation while stationary, reset on a changed target, tracking interruption, and stale-frame gaps.
-- The **actual bundled MediaPipe model** loaded in a browser Web Worker. The official public MediaPipe `portrait.jpg` sample produced **one face and 478 landmarks**. A blank image produced zero faces. A two-portrait composite produced two faces and no pointer position. This verification used no camera and is not a simulation of AI results.
-- UI: selecting a card produced only a draft; confirmation displayed the selected message; cancel preserved the previous confirmed message.
-- Practice mouse dwell selected a message. A separate dwell after moving into neutral space confirmed `I need a break.` The browser reported local speech completion on that run. An earlier playback attempt was blocked; the app displayed an honest fallback status.
-- Urdu text and right-to-left confirmation displayed. The browser had no local Urdu voice, and the app showed text-only behavior.
-- Custom messages updated the board. Desktop and 390-pixel mobile confirmation layouts were visually checked.
-- A compact-layout issue that hid the camera button after practice was corrected and checked: Enable camera remains visible in compact practice mode.
-- WebMCP tool registered with its schema and annotations. Valid staging returned `confirmed: false` and updated the visible draft. An invalid message ID was rejected without changing the draft or speaking.
+## Evidence and its scope
 
-## Still needs testing
+| Area | Observed result | What it establishes / does not establish |
+| --- | --- | --- |
+| Four extracted ZIP tests | All passed: core, pointer, camera and speech | Deterministic logic/failure checks; not real-user or clinical validation |
+| Actual bundled face model in a browser worker | Public portrait sample: one face, 478 landmarks; blank: zero; two-portrait composite: two and no usable pointer | Real inference on test images; no participant webcam or intended-user trial |
+| Synthetic camera stream | Local sample-image stream completed startup and five calibration steps; pointer appeared | Browser integration with the real model, not voluntary human head movement |
+| Creator's laptop report | Creator reported head control working and later that the app worked after adjustments | User report, not agent-measured accuracy, comfort, frame rate or benchmark |
+| Card interaction | Silent draft, Confirm, Cancel, previous confirmed output, mouse dwell and separate release checked | Observed board workflow in browser practice mode |
+| Responsive layouts | 1440×900, 768×1024, 390×844, 320×568 and 844×390; no horizontal overflow in checked layouts | Browser viewport checks, not trials on physical phones |
+| Text / keyboard | Urdu right-to-left draft, custom phrases, focus transfer/return and compact setup controls checked | Specific observed examples, not all text lengths/writing systems or formal accessibility audit |
+| Actual free speech engine | Non-silent WAV generated and browser playback completed for all eight packs and a custom Urdu phrase | Audio generation/playback status; not fluent-speaker pronunciation approval or audibility on every device |
+| Public GitHub Pages | Draft/Confirm worked; English and Urdu free playback completed after retrying one initial download timeout | Public browser integration, with a real observed first-load limitation |
+| Optional model-context tool | Valid staging returned `confirmed: false`; invalid ID rejected | Tested experimental draft-only integration; not available in every browser |
+| Published presentation | YouTube watch playback advanced; about 2:57 duration, Unlisted, no player error in the check | Accessible uploaded presentation; no live head-control footage |
 
-- Live webcam permission, movement calibration and comfortable control on Kaif’s laptop; the agent did not open the user’s camera.
-- Frame rate and stability on the actual 8 GB laptop under different lighting and camera positions.
-- Intended-user feedback, accidental selections, fatigue, movement limitations, translation accuracy, and voice availability across devices.
-- Real healthcare deployment, clinical safety and effectiveness have not been established. The demo is not an emergency alert, diagnosis tool, or clinically validated assistive device.
+The agent did not open or record the user's real camera. Public sample-image fixtures and synthetic video harnesses are excluded from the deployed app and submission ZIP.
 
-The public sample photo is used only in the local test harness and is excluded from the deployed app and source ZIP.
+## Regression tests
 
-## Camera startup fix
+Run from the package root with Node.js; no npm install is required for these scripts.
 
-Reproduced a browser startup case where camera video was playing with `readyState: 4`, but the `play()` promise remained pending. The previous app did not open calibration in this case. The fix checks usable frames with timeout/cancellation instead of waiting for that promise.
+```sh
+node tests/core-test.mjs
+node tests/pointer-test.mjs
+node tests/camera-test.mjs
+node tests/speech-test.mjs
+```
 
-Verified with a local canvas video stream of the public sample photo and the actual bundled face model: startup opened calibration, all five movement steps completed, the app reported `One face tracked · head control ready.`, and the yellow pointer became visible. Tests also passed for delayed frames, no-frame timeout, canceled startup and rejected playback. This is a synthetic camera stream test, not a live webcam test on the user’s laptop.
+| Script | Covered cases |
+| --- | --- |
+| `core-test.mjs` | Mirrored/vertical calibration, insufficient samples/range, invalid coordinates, one stationary activation, target changes and tracking gaps |
+| `pointer-test.mjs` | Small jitter, isolated spikes, speed bounds, deliberate movement, long frame gaps, resets, 30/60 Hz response consistency and edge reach |
+| `camera-test.mjs` | Pending play promise with usable frames, delayed frames, no-frame timeout, canceled startup and playback rejection |
+| `speech-test.mjs` | Local-only native voice selection, stale/canceled audio suppression, stopping audio, canceled callbacks, forced free voice, worker failure and blocked audio |
 
-## Pointer stability update
+Speech and camera tests use controlled substitutes to verify failure paths. They are supplemented by the actual model/engine browser checks above. JavaScript syntax checks also passed during implementation.
 
-After the user confirmed live head control worked but was too fast/jittery, added three-sample median filtering, an 8-pixel deadband, smoothing on display frames, and a 480-pixel/second speed limit. Defaults are now 0.8× sensitivity and Strong smoothing. Sensitivity softens smaller movements but preserves the full calibrated edge reach.
+## Resolved development issues
 
-Deterministic tests passed for small stationary noise, isolated spikes, per-frame speed limits, intentional movement, long frame gaps, tracking reset, invalid input, 30/60 Hz response consistency, and reach to all calibrated edges at low sensitivity. Existing dwell, calibration and camera-startup tests passed. The actual face model still completed calibration and displayed the pointer with the local sample video; the settings interface displayed the new defaults. The user still needs to assess stability and comfort with their own live head movements.
+- Camera preview could play while its `play()` promise stayed pending. Startup now checks usable frames with timeout/cancellation, allowing calibration to begin.
+- Early pointer movement was jittery/fast. Median filtering, deadband, smoothing and a speed limit were added; defaults are 0.8× sensitivity and Strong smoothing. The creator later reported the app working.
+- Earlier versions depended on installed voices and showed Urdu as text only. The **current** bundle adds free speech for all eight prepared packs; fluent-speaker review is still outstanding.
+- Compact layouts previously hid setup controls. Checked controls now remain available; settings scroll internally on short viewports.
 
-## Responsive UI verification
+## Current package review
 
-Checked the redesigned board at desktop 1440×900, tablet 768×1024, phone 390×844, small phone 320×568, and landscape 844×390. No horizontal page overflow in these checks. Settings fit the small-phone viewport and scroll internally. English selection/confirmation/cancellation, local speech fallback, Urdu right-to-left draft text, and keyboard focus transfer/return were verified.
+The subsequent API/network source audit found MediaPipe's active usage/performance logger. Earlier wording that only hosting/asset requests existed was incomplete and is corrected in the current Markdown. No camera frames or messages were found in the logger's metrics construction, and Google's official notice says inputs are processed on device. Actual live network requests were not recorded by this source audit; zero external traffic is not claimed. See the [API/network audit](api-network-audit.md).
 
-With the actual bundled face model and a local sample-video stream, calibration completed in the phone layout. All six default English cards fit in the 320×568 viewport after compact-layout adjustments; confirm/cancel targets were reachable in both phone and landscape layouts. Recalibration and camera-off controls stayed available. Live physical phone camera permissions/performance, long custom messages across all writing systems, and intended-user usability still need testing. No user camera was opened by the agent.
+ZIP integrity, payload hashes, documentation UTF-8 and relative file links are checked by the packaging audit. The deployed app/assets, four tests, one-page PDF, 25-page reviewed code PDF and presentation bytes are preserved from the previously reviewed package. The code PDF includes nine first-party deployed source files and all four test scripts; third-party binaries remain in `dist/assets/`.
 
-Core calibration/dwell, pointer stability, camera-startup regression checks, and JavaScript syntax checks passed. Screenshots of the new desktop and mobile layouts are saved alongside this verification note. The local sample-video harness is excluded from deployment and the code ZIP.
+Original review found no private configuration paths, camera/sample images or recognized API-key/private-key patterns. Pattern scanning cannot guarantee the absence of every possible secret. This Markdown revision does not create a new functional test result.
 
-## Free speech verification
+## Remaining evaluation
 
-Verified pinned espeak-ng 1.0.2 npm tarball integrity. The actual engine generated non-silent PCM WAV for English, Urdu, Arabic, Hindi, Spanish, French, German and Mandarin. The real browser worker/Web Audio pipeline reached playback completion for each of the eight language choices with Free built-in voice selected, and for a custom Urdu message. This verifies audio generation and playback completion, not a fluent-speaker pronunciation assessment or audibility on every user's physical device.
+1. On the creator's physical laptop, repeat comfortable calibration, selection, release, Confirm/Cancel and English/Urdu free-voice listening together; document the observed outcome.
+2. On a physical phone, test touch, dialogs, scrolling and audio permissions; camera input performance is a separate device check.
+3. Ask fluent speakers to assess prepared translations and pronunciation, especially Arabic custom text and Mandarin.
+4. With appropriate consent, obtain intended-user and accessibility-specialist feedback on fatigue, accidental activation, reachable targets and helper-assisted setup.
 
-Meaningful speech-controller tests passed for local-only native voice selection, canceled/stale synthesis suppression, stopping current audio, stale native callbacks, explicitly choosing the free voice, worker failures, and audio-permission fallback. The speech worker maps Chinese to cmn, handles plain text via a local virtual input file, and rejects unsupported languages/overlong requests. No private text was sent to a speech service. Arabic defaults now include vowel marks to match the engine's documented input requirements.
-
-Still needs user listening checks for pronunciation/comfort and hands-free audio on the user's own laptop/phone. First built-in use downloads approximately 18.7 MB of speech runtime assets. Failed or blocked audio retains confirmed text and suggests Read again. Existing face tracking remains the on-device AI component; built-in speech is rule-based.
+No physical-phone benchmark, every-language/device guarantee, intended-user trial, accessibility certification, clinical outcome or minimum-RAM benchmark is claimed. See [privacy and safety](privacy-and-safety.md) and [submission status](submission-checklist.md).

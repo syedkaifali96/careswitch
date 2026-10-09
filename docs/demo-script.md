@@ -1,34 +1,60 @@
-# CareSwitch - 2 minute 45 second demo
+# CareSwitch published video: timeline and English narration
 
-Use English narration for the global judging audience. Keep on-screen English captions. Show the real app and at least one continuous real-camera selection. Do not act as a patient or imply a clinical trial.
+This script matches the [published 2:57 presentation](https://youtu.be/PYqF6pDfuLU) and included MP4. Times come from its authored chapter metadata; encoding rounding can shift boundaries slightly. It is edited actual app imagery in mouse practice mode, with synthetic Microsoft Zira Desktop narration and burned-in English captions. Camera/head-control workflow is explained, not recorded live.
 
-| Time | What to show | Narration |
+| Scene | Authored time | What is shown |
 | --- | --- | --- |
-| 0:00-0:18 | Title, then the six-card board. | "When speaking or using a touchscreen is difficult, a simple message can be hard to express. CareSwitch explores a low-cost way to choose and speak prepared messages using voluntary head movement and an ordinary webcam." |
-| 0:18-0:32 | Enable camera and begin comfortable range setup. | "This student prototype is for people who can move their head comfortably, with a helper if needed. I enable the camera and set my movement range. The pretrained face-landmark model runs locally in the browser." |
-| 0:32-0:50 | Show center, left, right, up and down setup. Shorten only waiting time; caption any cut. | "The app learns the range I choose, rather than asking for extreme movements. It maps a face landmark to an in-app pointer. This is head control, not eye-gaze tracking." |
-| 0:50-1:15 | Hands visibly away from input devices. Select I need a break by head movement, release, then Confirm. Let the message sound finish. | "I guide the pointer to 'I need a break' and hold. It creates a draft; nothing is spoken yet. I move away, then choose Confirm. Now my chosen message appears and is read aloud." |
-| 1:15-1:30 | Select another card and Cancel using the head pointer. | "If the selection is wrong, I can cancel it. Filtering and a speed limit help keep the pointer steady. Missing or stale tracking stops selection." |
-| 1:30-1:53 | Switch to Urdu, choose Free built-in voice, select and Confirm a message. Allow audible speech. | "There are eight prepared message languages, including Urdu. The app uses a local device voice when available, with a free built-in voice as fallback. Speech is generated on the device. The voice is synthetic, and pronunciation still needs fluent-speaker feedback." |
-| 1:53-2:12 | Customize one phrase, then show a real small-screen or touch view. Label mouse/touch mode. | "The six phrases can be edited for a person's needs. Touch, keyboard and mouse are also supported. The responsive layout keeps the messages readable and settings scrollable on a small screen." |
-| 2:12-2:30 | Pause, resume, camera off; show privacy label. | "Camera frames are neither recorded nor uploaded by the app. There is no paid AI API or patient database. The caregiver card only speaks a request; it does not contact anyone." |
-| 2:30-2:45 | Board and source link. | "CareSwitch supports communication, not diagnosis or treatment. It has not been clinically validated. My next step is feedback from intended users and accessibility specialists. Your movement. Your message." |
+| 1 | 00:00.000–00:19.406 | Your movement. Your message. — CareSwitch · AI × Healthcare |
+| 2 | 00:19.406–00:39.322 | AI removes an input barrier — Camera-mode workflow · explanation |
+| 3 | 00:39.322–00:53.699 | Start with six clear choices — Actual app captures · mouse practice mode |
+| 4 | 00:53.699–01:09.821 | Selection creates a silent draft — Actual app captures · mouse practice mode |
+| 5 | 01:09.821–01:27.438 | Confirm before it is spoken — Actual app captures · mouse practice mode |
+| 6 | 01:27.438–01:48.349 | Eight message languages. Free speech. — Actual app capture · Urdu confirmation |
+| 7 | 01:48.349–02:05.071 | Adjust the controls to the person — Actual app settings · edited capture |
+| 8 | 02:05.071–02:21.772 | Support helpers and smaller screens — Responsive browser capture · not a physical phone trial |
+| 9 | 02:21.772–02:41.578 | Useful support, with clear boundaries — Student prototype · honest limitations |
+| 10 | 02:41.578–02:56.635 | Let the user choose what is said. — CareSwitch · DSH Hacks V2 |
 
-## Easy recording steps (Roman Urdu)
+## Exact narration
 
-1. Laptop charge par rakho, bright room mein baitho. Notifications band karo; patient ya private information screen par mat rakho.
-2. Site kholo, camera aur voice ek baar check kar lo. Settings mein **Free built-in voice** choose karke Urdu bhi sun lo.
-3. Windows **Snipping Tool** kholo, video recording select karo, sirf browser area record karo. Agar tumhare installed version mein microphone/audio toggle milta hai to use enable karo. Warna alag narration record karke editor mein add karo.
-4. Real head-control clip 25-30 seconds continuous rakho: hands side par, message select, release, Confirm, sound. Apna face dikhana optional hai; pointer aur confirmation clear honi chahiye. Agent tumhara camera khud nahi kholega.
-5. English lines calmly bolo. Perfect accent zaroori nahi. Script ko copy karke notes mein rakh sakte ho.
-6. Clip ko free installed video editor mein trim karo. Calibration waiting time cut karo to 'Setup shortened' caption lagao. Mouse/touch footage ko 'Mouse/touch mode' label karo.
-7. Final MP4 2-3 minutes rakho; speech ka sound audible ho. English captions use karo. Synthetic narration use ho to disclose karo.
-8. Video ko YouTube **Unlisted** upload karo; link ko signed-out viewer se check karo. Devpost field mein verified link lagao. Private YouTube video judges nahi dekh sakte.
+### 1. Your movement. Your message.
 
-## Before uploading
+When speaking or using a touchscreen is difficult, a simple message can be hard to express. CareSwitch is a student communication prototype. This edited demonstration uses actual mouse-mode screen captures, with synthetic narration. Live head tracking is explained, not recorded here.
 
-- Head-control interaction is real, not a test fixture or fake cursor animation.
-- Prototype and AI assistance are disclosed; no patient test or clinical benefit is invented.
-- Urdu audio is actually heard; do not equate a playback-complete status with confirmed pronunciation.
-- All people shown consent to the recording.
-- If no live-camera clip is available, the prepared practice walkthrough may explain the app, but does not demonstrate the AI input. Add the real clip before relying on it for judging.
+### 2. AI removes an input barrier
+
+For someone who can comfortably move their head, a helper can enable the camera and follow five movement-range prompts. A pretrained MediaPipe model finds face landmarks on the device. Calibration maps movement into an in-app pointer. This is head control, not eye-gaze tracking.
+
+### 3. Start with six clear choices
+
+The board provides six editable messages for a care conversation, including yes, no, and I need a break. Camera control uses a timed hold; mouse, keyboard and touch offer alternatives.
+
+### 4. Selection creates a silent draft
+
+Selecting I need a break creates a draft. The exact phrase appears for review, and nothing is spoken yet. Confirm and Cancel are separate choices. In head mode, the pointer must leave the first target before confirming.
+
+### 5. Confirm before it is spoken
+
+After confirmation, the chosen message appears as the final message. If playback fails, the confirmed text remains visible. Read again lets the user retry. CareSwitch reads the user's choice, rather than generating medical advice.
+
+### 6. Eight message languages. Free speech.
+
+Prepared messages cover English, Urdu, Arabic, Hindi, Spanish, French, German and Chinese. A matching local device voice is used when available. A bundled free speech engine provides a fallback without a paid API. Pronunciation still needs fluent-speaker review.
+
+### 7. Adjust the controls to the person
+
+Hold time, sensitivity and smoothing can be adjusted. Filtering and a speed limit steady the pointer. Missing faces, multiple faces or stale tracking stop dwell selection. Users can also force the free built-in voice.
+
+### 8. Support helpers and smaller screens
+
+A helper can edit the phrases or use mouse and keyboard. The responsive layout also supports touch. Setup instructions are currently English. Physical-phone performance, comfort and accessibility still need testing with real users.
+
+### 9. Useful support, with clear boundaries
+
+Camera frames are not recorded or uploaded by the app. There is no patient database. The caregiver phrase speaks a request; it does not contact anyone. CareSwitch does not diagnose, prescribe or send emergency alerts. It has not been clinically validated.
+
+### 10. Let the user choose what is said.
+
+AI tools helped build the prototype. The next step is feedback from intended users and accessibility specialists. Try CareSwitch using the project link. Your movement. Your message.
+
+This script is not evidence of real head-input footage or a clinical/intended-user trial. See [video notes](CareSwitch-demo-notes.md) and [verification](verification.md).

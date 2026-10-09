@@ -1,0 +1,177 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:06.880
+When speaking or using a touchscreen is difficult. a simple message can be hard to
+
+2
+00:00:06.880 --> 00:00:07.339
+express.
+
+3
+00:00:07.339 --> 00:00:10.091
+CareSwitch is a student communication prototype.
+
+4
+00:00:10.091 --> 00:00:15.136
+This edited demonstration uses actual mouse-mode screen captures. with synthetic
+narration.
+
+5
+00:00:15.136 --> 00:00:18.806
+Live head tracking is explained. not recorded here.
+
+6
+00:00:19.406 --> 00:00:26.144
+For someone who can comfortably move their head. a helper can enable the camera and
+
+7
+00:00:26.144 --> 00:00:27.941
+follow five movement-range prompts.
+
+8
+00:00:27.941 --> 00:00:32.433
+A pretrained MediaPipe model finds face landmarks on the device.
+
+9
+00:00:32.433 --> 00:00:35.577
+Calibration maps movement into an in-app pointer.
+
+10
+00:00:35.577 --> 00:00:38.722
+This is head control. not eye-gaze tracking.
+
+11
+00:00:39.322 --> 00:00:46.211
+The board provides six editable messages for a care conversation. including yes. no.
+and I
+
+12
+00:00:46.211 --> 00:00:47.588
+need a break.
+
+13
+00:00:47.588 --> 00:00:53.099
+Camera control uses a timed hold; mouse. keyboard and touch offer alternatives.
+
+14
+00:00:53.699 --> 00:00:57.055
+Selecting I need a break creates a draft.
+
+15
+00:00:57.055 --> 00:01:01.670
+The exact phrase appears for review. and nothing is spoken yet.
+
+16
+00:01:01.670 --> 00:01:04.187
+Confirm and Cancel are separate choices.
+
+17
+00:01:04.187 --> 00:01:09.221
+In head mode. the pointer must leave the first target before confirming.
+
+18
+00:01:09.821 --> 00:01:14.826
+After confirmation. the chosen message appears as the final message.
+
+19
+00:01:14.826 --> 00:01:18.830
+If playback fails. the confirmed text remains visible.
+
+20
+00:01:18.830 --> 00:01:21.833
+Read again lets the user retry.
+
+21
+00:01:21.833 --> 00:01:26.838
+CareSwitch reads the user's choice. rather than generating medical advice.
+
+22
+00:01:27.438 --> 00:01:33.852
+Prepared messages cover English. Urdu. Arabic. Hindi. Spanish. French. German and
+Chinese.
+
+23
+00:01:33.852 --> 00:01:38.662
+A matching local device voice is used when available.
+
+24
+00:01:38.662 --> 00:01:45.076
+A bundled free speech engine provides a fallback without a paid API.
+
+25
+00:01:45.076 --> 00:01:47.749
+Pronunciation still needs fluent-speaker review.
+
+26
+00:01:48.349 --> 00:01:52.142
+Hold time. sensitivity and smoothing can be adjusted.
+
+27
+00:01:52.142 --> 00:01:55.936
+Filtering and a speed limit steady the pointer.
+
+28
+00:01:55.936 --> 00:02:00.677
+Missing faces. multiple faces or stale tracking stop dwell selection.
+
+29
+00:02:00.677 --> 00:02:04.471
+Users can also force the free built-in voice.
+
+30
+00:02:05.071 --> 00:02:10.438
+A helper can edit the phrases or use mouse and keyboard.
+
+31
+00:02:10.438 --> 00:02:13.365
+The responsive layout also supports touch.
+
+32
+00:02:13.365 --> 00:02:15.805
+Setup instructions are currently English.
+
+33
+00:02:15.805 --> 00:02:21.172
+Physical-phone performance. comfort and accessibility still need testing with real
+users.
+
+34
+00:02:21.772 --> 00:02:26.457
+Camera frames are not recorded or uploaded by the app.
+
+35
+00:02:26.457 --> 00:02:28.799
+There is no patient database.
+
+36
+00:02:28.799 --> 00:02:33.952
+The caregiver phrase speaks a request; it does not contact anyone.
+
+37
+00:02:33.952 --> 00:02:38.168
+CareSwitch does not diagnose. prescribe or send emergency alerts.
+
+38
+00:02:38.168 --> 00:02:40.978
+It has not been clinically validated.
+
+39
+00:02:41.578 --> 00:02:44.791
+AI tools helped build the prototype.
+
+40
+00:02:44.791 --> 00:02:50.681
+The next step is feedback from intended users and accessibility specialists.
+
+41
+00:02:50.681 --> 00:02:53.894
+Try CareSwitch using the project link.
+
+42
+00:02:53.894 --> 00:02:54.964
+Your movement.
+
+43
+00:02:54.964 --> 00:02:56.035
+Your message.

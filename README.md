@@ -1,76 +1,86 @@
 # CareSwitch
 
-A first hackathon prototype of a hands-free communication board. People who can voluntarily move their head can select a prepared message with a webcam-controlled **in-app** pointer. A separate confirmation step displays the message and speaks using a matching local device voice or the bundled free speech engine. It does not control the operating system, contact a caregiver, make an emergency call, diagnose, or infer pain/emotion.
+**Your movement. Your message.** An on-device, head-controlled communication board with free multilingual speech.
 
-## Try it
+Built by **Syed Kaif Ali**, a solo student participant, for **DSH Hacks V2: AI × Healthcare**. AI tools assisted planning, coding, debugging, UI refinement, testing and documentation. This is an interactive student prototype, with no clinical validation or intended-user trial.
 
-**[Open the free public demo](https://syedkaifali96.github.io/careswitch/)**
+[Try the public demo](https://syedkaifali96.github.io/careswitch/) · [Watch the 2:57 presentation](https://youtu.be/PYqF6pDfuLU) · [GitHub](https://github.com/syedkaifali96/careswitch) · [Devpost draft](https://devpost.com/software/careswitch)
 
-Use the hosted HTTPS demo in a recent Chrome or Edge browser, preferably full screen on a laptop. Camera access is off by default.
+## Problem and intended use
 
-1. **Try with mouse / keyboard** demonstrates the board without camera access. Mouse dwell and click/Tab/Enter are supported. This mode is clearly labeled practice, not AI tracking.
-2. **Enable camera** loads the on-device face model, then asks for browser permission. No microphone is requested.
-3. Follow center / left / right / up / down setup prompts using only comfortable movements. Setup needs one visible face and a distinguishable movement range.
+A person may know what they want to say but find speaking or using their hands difficult. During a conversation at home or in a care setting, expressing “Yes”, “Please explain that again”, or “I need a break” can help them communicate a preference.
 
-Camera startup checks usable video frames rather than waiting indefinitely for the browserâ€™s `play()` promise. If frames do not arrive within 10 seconds, it stops the camera and reports the problem. A non-responsive tracker also stops instead of silently hanging. The setup dialog explains missing faces, multiple faces, or delayed tracking directly.
-4. Guide the pointer to a card and hold for 1.5 seconds by default. Move away from the card, then hold on **Confirm** or **Cancel**. A draft is never spoken.
-5. **Pause head control** can be selected by dwell. Resume can also be selected by dwell. Settings adjust hold time, sensitivity, smoothing, and horizontal direction.
-6. Stop the camera with **Turn camera off**. Hiding the tab also stops camera access; restarting requires another user action.
+CareSwitch explores an input option for people who can comfortably and voluntarily move their head, with a nearby helper if setup assistance is needed. A webcam guides a pointer to a small board of editable phrases. The user reviews and confirms the exact message before it is displayed and read aloud. Potential benefits are hypotheses until tested with intended users.
 
-Camera startup checks usable video frames rather than waiting indefinitely for the browser’s `play()` promise. If frames do not arrive within 10 seconds, it stops the camera and reports the problem. A non-responsive tracker also stops instead of silently hanging. The setup dialog explains missing faces, multiple faces, or delayed tracking directly.
+The AI addresses an **input barrier**: a pretrained model finds face landmarks locally. The app does not require typing a prompt, generate medical answers, or infer what the person wants. Existing communication and head-input tools already exist; no world-first claim is made.
 
-Head control now defaults to **0.8Ã— sensitivity** and **Strong smoothing**. Lower sensitivity softens small movements while retaining the full calibrated range, so edge controls remain reachable without exceeding the setup movements. Three-sample median filtering removes isolated landmark spikes, an 8-pixel deadband suppresses small drift, and display-frame interpolation limits pointer travel to 480 pixels/second. This trades some response speed for easier holding. Settings can adjust sensitivity and smoothing. Filtering resets when tracking is lost; stale frames still cannot select a message.
+## Implemented features
 
-## Scope and boundaries
+- Five-step movement calibration: center, left, right, up and down. This uses nose-landmark position, not eye-gaze tracking or an operating-system cursor.
+- Six editable cards; timed hold selects a silent draft. Separate Confirm/Cancel controls and a required pointer release reduce unintended repeated activation.
+- Median filtering, deadband, smoothing and a speed limit; adjustable hold time and sensitivity.
+- Tracking loss, multiple faces, stale tracking and open dialogs stop dwell selection. Hiding the tab stops the camera.
+- Prepared message packs in English, Urdu, Arabic, Hindi, Spanish, French, German and Chinese; right-to-left message display for Urdu and Arabic.
+- A matching local device voice, with a bundled free eSpeak NG fallback. Confirmed text remains visible if playback fails; Read again retries.
+- Mouse, touch and keyboard alternatives, customizable phrases and responsive layouts.
 
-- Six editable messages; eight prepared message packs: English, Urdu, Arabic, Hindi, Spanish, French, German, Chinese. Other scripts can be entered manually. The surrounding setup interface is English in this first version; translations still need review by fluent speakers.
-- Speech uses a matching **local** device voice when available, with a bundled free eSpeak NG voice as fallback for all eight message languages. Settings can force the free built-in voice. This is synthetic formant speech, not a natural neural voice. Arabic requires vowel marks; default Arabic phrases include them. If playback is blocked, confirmed text stays visible and Read again allows another attempt. No remote speech service is selected.
-- MediaPipe detects face landmarks. Calibrated nose position maps to the board; it is head control, not gaze/eye tracking. Normal speech models and paid AI APIs are not used.
-- Camera frames are processed in a local Web Worker and are not uploaded or recorded. Landmark results and customized phrases are held in memory in this tab. There is no application database, analytics, patient record, account system, or face recognition. The hosting provider necessarily receives ordinary page/asset requests.
-- Dwell stops with no face, multiple faces, stale tracking results, an open dialog, or a hidden tab. A deliberate pointer release is required between draft selection and confirmation. These controls reduce accidental selection; they do not establish clinical safety.
-- This has not been validated with intended users. Performance, comfortable movement range, accidental activations, lighting/occlusion, and language accuracy require real testing. Some people will need a helper for setup. It is not suitable when voluntary head movement is unavailable or uncomfortable.
-- No claim of world-first novelty. Head-controlled assistive communication already exists. This prototype explores accessible browser setup, multilingual prepared messages, and explicit confirmation.
+Setup instructions and surrounding UI remain **English**. eSpeak NG is rule-based synthetic speech, not a neural voice. Arabic custom text needs vowel marks; the Chinese fallback uses Mandarin. There is no paid AI service, participant-supplied API key, account, patient database or app upload of camera frames/messages. However, the bundled MediaPipe runtime contains active performance/usage telemetry to Google; local inference does not mean zero external requests. See the [API/network audit](docs/api-network-audit.md).
 
-## Run locally
+## Try it in two minutes
 
-Serve `dist/` with a static web server on localhost; camera access requires localhost or HTTPS. For example, with Node.js installed:
+1. Open the public demo. Click or tap “I need a break.”
+2. Review the silent draft. Click **Confirm message** to display and read it, or **Cancel** to discard it.
+3. Change **Message language** to try another prepared pack. Under **Settings → Voice**, choose **Free built-in voice** to test the fallback.
+4. For camera input, click **Enable camera**, allow access, and complete all five comfortable movement prompts. If only the preview appears, click **Set my movement range**.
+5. Move the pointer into empty space, then onto a card. Hold for the configured time. After selection, leave the targets before moving onto Confirm or Cancel and holding again.
+6. Pause or turn the camera off when needed. Recalibrate if the camera or your seating position changes.
 
-```text
-npx --yes http-server dist -p 4174
+The first model/speech download can take time. The speech WASM alone is about 18.5 MB; if it times out, wait for the connection to settle and press **Read again**. See the [user guide and troubleshooting](docs/user-guide.md).
+
+## Run the included code locally
+
+There is no build step or server application. Extract the ZIP and open a terminal in its root. If Python 3 is installed:
+
+```sh
+python -m http.server 4174 --bind 127.0.0.1 --directory dist
 ```
 
-Open `http://localhost:4174`. Opening `index.html` directly as a file does not support workers/camera reliably. No build step, private key, API account, model training, or paid API is required. The free face model/runtime and speech engine are bundled under `dist/assets/` (about 63 MB before compression). The speech files load on first use of a built-in voice, not on initial page load.
+Open **http://localhost:4174/**. Alternatively, with Node.js installed:
 
-## Third-party assets
+```sh
+npx --yes http-server dist -p 4174 -a 127.0.0.1
+```
 
-- `@mediapipe/tasks-vision` **1.1.0**, from the official npm registry. Copyright Google / MediaPipe contributors, Apache-2.0. License is included at `dist/assets/mediapipe/LICENSE`.
-- Face Landmarker model version **1**, official model URL: <https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task>.
-- Model SHA-256: `64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff`.
-- Guide: <https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker/web_js>.
+The Node alternative downloads a serving tool on first use. Camera access needs HTTPS or localhost. Opening `index.html` directly as a file is insufficient for the worker/camera workflow. The public site needs a connection for initial assets; this is not an installable offline app and browser caching is not guaranteed.
 
-AI assistance was used in planning, implementation, and debugging. The real AI component is the pretrained on-device face-landmark model. This is a prototype for evaluation, not a clinically validated assistive medical device.
-## Responsive design update
+Requirements: a modern browser with Web Workers, WebAssembly, Web Audio and camera-frame support; a webcam is optional for practice. Chrome/Edge are suggested by the app's error guidance. Minimum RAM, physical-phone compatibility and comfortable performance on an 8 GB laptop have not been established by a device benchmark.
 
-The communication board now uses a clearer cobalt-and-white theme, consistent message icons, readable text, larger touch targets, distinct draft confirmation, and an understated empty state. On mobile, tap-based messages appear before camera setup. Camera setup and Back to messages links connect the two areas. Once head control is calibrated, camera controls become compact while recalibration and camera-off actions remain available. Short screens use a denser layout to keep the six messages reachable. Settings and message editing dialogs scroll inside the viewport. Keyboard focus moves to confirmation and returns to the selected card. Resizing clears pending dwell selection.
+## Structure and documentation
 
-Mobile browsers need HTTPS, camera permission, and compatible camera/vision APIs. Chrome or Edge on a recent device is a recommended starting point. Responsive browser checks with a sample-video camera stream do not establish support or performance on every physical phone. Text messages work by touch without enabling the camera; speech can use local device voices or the bundled free engine.
+| Path | Contents |
+| --- | --- |
+| `dist/` | Runnable app, bundled model, runtime assets and upstream licenses |
+| `tests/` | Four Node.js regression test scripts |
+| `docs/` | Guides, project scope, architecture, evidence, presentation materials and PDFs |
+| `FILE-MANIFEST.json` | SHA-256 and size of every other file in this review ZIP |
 
-## Free multilingual speech
+Read the [documentation index](docs/index.md), [architecture](docs/architecture.md), [privacy and safety](docs/privacy-and-safety.md), [verification record](docs/verification.md) and [third-party notices](docs/third-party-notices.md). Review the [one-page description](docs/CareSwitch-project-description.pdf), [25-page code PDF](docs/CareSwitch-code.pdf) and [English project story](docs/devpost-description.md).
 
-The eSpeak NG npm distribution **1.0.2** is pinned, its SHA-512 integrity was verified against npm metadata, and its JS/WASM files are unmodified. It is GPL-3.0-or-later; its full license, source links and upstream build instructions are at `dist/assets/speech/`. The custom speech adapter is in `dist/speech.mjs` and `dist/speech-worker.mjs`. Existing MediaPipe attribution is retained.
+With Node.js installed, run each check from the package root:
 
-Speech is synthesized in a separate local worker. Only the text language and message enter that worker; text is not put in a URL or sent to a server. The engine files are loaded from the same hosting origin. Mandarin maps to the cmn voice. Custom messages in the selected language are supported up to 160 characters. Pronunciation needs fluent-speaker review, particularly Urdu and Arabic; Arabic custom messages need full vowel marks. This does not provide automatic translation or guarantee every language/dialect.
+```sh
+node tests/core-test.mjs
+node tests/pointer-test.mjs
+node tests/camera-test.mjs
+node tests/speech-test.mjs
+```
 
-A camera/practice click prepares local audio for later hands-free confirmation. Clear, language/voice changes and tab hiding stop playback. A canceled generation cannot speak a stale message when it finishes. Failures preserve confirmed text. Read again reuses cached audio (up to eight messages in memory). The built-in engine is a rule-based formant synthesizer; the AI component remains the face-landmark model.
+These test logic and mocked failure cases. Actual-model browser checks and their limits are recorded separately in verification; the four scripts alone do not validate real webcam usability or pronunciation.
 
-## Submission materials
+## Current review status — 10 October 2026
 
-The one-page description and first-party code PDF are in `docs/`. The public Devpost entry is still a draft: its required video link and final participant agreement are pending. `docs/submission-checklist.md` records completed and outstanding checks.
+The demo and repository are public. The presentation is uploaded Unlisted to YouTube and its link is saved in Devpost. It uses edited actual app captures in mouse practice mode with synthetic English narration; live head tracking is explained, not recorded.
 
-A captioned 2:50 screenshot walkthrough is available at [the draft video page](https://syedkaifali96.github.io/careswitch/walkthrough.html). It uses mouse-mode screenshots and local synthetic narration; it does not demonstrate live head tracking. A real continuous head-control clip should be included in the final demo.
+Devpost remains a **draft, 4/5 steps done**. Final agreement and Submit are paused at the creator's request. The previous source ZIP is still attached there; this revised ZIP has not been uploaded. Updated documentation and the reviewed code PDF are included in this repository revision. Parent/guardian consent and final Rules/Terms agreement have not been confirmed in this conversation. See the [submission checklist](docs/submission-checklist.md) for the deadline discrepancy and remaining actions.
 
-The first free-voice use downloads about 18.5 MB of speech assets. On a slow connection it can time out; confirmed text remains visible and **Read again** retries.
-
-## Run the checks
-
-With Node.js installed, run `node tests/core-test.mjs`, `node tests/pointer-test.mjs`, `node tests/camera-test.mjs` and `node tests/speech-test.mjs`. These checks do not replace intended-user or physical-device testing.
+Third-party licenses remain attached to their components. No blanket first-party open-source license has been selected in this package; see the notices before redistribution.
