@@ -1,0 +1,184 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.617
+When speaking or using a touchscreen is difficult. a simple message
+can be hard to express.
+
+2
+00:00:05.617 --> 00:00:12.638
+CareSwitch explores a low cost way to choose and speak prepared
+messages using voluntary head movement and an ordinary webcam.
+
+3
+00:00:12.638 --> 00:00:16.148
+This walkthrough shows real app screenshots in mouse practice mode.
+
+4
+00:00:16.148 --> 00:00:18.605
+It does not demonstrate live head tracking.
+
+5
+00:00:20.105 --> 00:00:26.097
+The intended user can voluntarily and comfortably move their head.
+with a helper for setup if needed.
+
+6
+00:00:26.097 --> 00:00:31.384
+The camera mode uses the pretrained MediaPipe face landmark model in a
+local browser worker.
+
+7
+00:00:31.384 --> 00:00:33.851
+Five setup steps establish the movement range.
+
+8
+00:00:33.851 --> 00:00:37.728
+Filtering. smoothing and a speed limit steady the in app pointer.
+
+9
+00:00:37.728 --> 00:00:40.548
+This is head control. not eye gaze tracking.
+
+10
+00:00:42.048 --> 00:00:45.780
+Here is an actual selection of I need a break.
+
+11
+00:00:45.780 --> 00:00:48.019
+Choosing the card creates a draft.
+
+12
+00:00:48.019 --> 00:00:49.511
+Nothing is spoken yet.
+
+13
+00:00:49.511 --> 00:00:52.496
+The user reviews the exact text before confirming.
+
+14
+00:00:52.496 --> 00:00:54.362
+Cancel discards a wrong draft.
+
+15
+00:00:54.362 --> 00:01:01.079
+In head control mode. moving away between selection and confirmation
+helps prevent one hold from triggering both actions.
+
+16
+00:01:02.579 --> 00:01:07.695
+After Confirm. the chosen message appears as the final message and
+speech is attempted.
+
+17
+00:01:07.695 --> 00:01:11.349
+If audio is blocked or unavailable. the text remains visible.
+
+18
+00:01:11.349 --> 00:01:13.176
+Read again allows another attempt.
+
+19
+00:01:13.176 --> 00:01:17.561
+CareSwitch does not generate medical advice or decide what the user
+means.
+
+20
+00:01:17.561 --> 00:01:20.485
+It reads the message the user has chosen.
+
+21
+00:01:21.985 --> 00:01:26.661
+Prepared messages cover English. Urdu. Arabic. Hindi. Spanish. French.
+German and Chinese.
+
+22
+00:01:26.661 --> 00:01:30.168
+A matching local device voice is used when available.
+
+23
+00:01:30.168 --> 00:01:39.909
+A bundled free eSpeak engine provides a fallback for all eight
+choices. with no paid speech API and no text sent to a speech service.
+
+24
+00:01:39.909 --> 00:01:41.468
+The voice is synthetic.
+
+25
+00:01:41.468 --> 00:01:43.806
+Pronunciation still needs fluent speaker feedback.
+
+26
+00:01:45.306 --> 00:01:49.677
+Settings adjust hold time. movement sensitivity. pointer smoothing and
+direction.
+
+27
+00:01:49.677 --> 00:01:53.612
+The free built in voice can be selected directly.
+
+28
+00:01:53.612 --> 00:01:57.983
+Missing faces. multiple faces or stale tracking stop dwell selection.
+
+29
+00:01:57.983 --> 00:02:04.977
+These controls reduce accidental activation. but do not establish
+clinical safety or suitability for every user.
+
+30
+00:02:06.477 --> 00:02:10.206
+The six phrases can be edited in the selected language.
+
+31
+00:02:10.206 --> 00:02:16.173
+Mouse. keyboard and touch alternatives let a helper or user try the
+board without a camera.
+
+32
+00:02:16.173 --> 00:02:18.784
+The small screen layout keeps messages readable.
+
+33
+00:02:18.784 --> 00:02:21.022
+The setup interface is currently English.
+
+34
+00:02:21.022 --> 00:02:24.751
+Physical phone performance and intended user comfort still need
+testing.
+
+35
+00:02:26.251 --> 00:02:30.091
+Camera frames are not recorded or uploaded by the app.
+
+36
+00:02:30.091 --> 00:02:32.011
+There is no patient database.
+
+37
+00:02:32.011 --> 00:02:37.771
+The caregiver card speaks a request to a nearby listener; it does not
+contact anyone.
+
+38
+00:02:37.771 --> 00:02:40.459
+AI tools helped build this student prototype.
+
+39
+00:02:40.459 --> 00:02:42.763
+It has not been clinically validated.
+
+40
+00:02:42.763 --> 00:02:46.987
+The next step is feedback from intended users and accessibility
+specialists.
+
+41
+00:02:46.987 --> 00:02:47.755
+Your movement.
+
+42
+00:02:47.755 --> 00:02:48.523
+Your message.

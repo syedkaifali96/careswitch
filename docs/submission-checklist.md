@@ -25,15 +25,16 @@ Eligibility: student age 13+. AI-assisted submissions are permitted. The demo's 
 
 ## Required final checks
 
-- [ ] GitHub contains the complete runnable source, not an empty repository.
-- [ ] Judge demo opens without the owner's login, or source run instructions are available as a fallback. Existing ChatGPT Site is owner-private until an explicitly authorized audience change.
+- [x] Complete runnable source is public at https://github.com/syedkaifali96/careswitch.
+- [x] Public free demo opens at https://syedkaifali96.github.io/careswitch/. Original ChatGPT Site remains private.
 - [ ] On Kaif's laptop: confirm a message with head movement and hear English plus Urdu built-in speech. Record the observed result, not a guessed pass.
 - [ ] On a physical phone: test touch, Confirm/Cancel, speech and scrolling; camera comfort/performance is a separate check.
-- [ ] Create/save CareSwitch under the registered DSH Hacks V2 entry; keep team solo.
-- [ ] Upload project PDF and code PDF/ZIP wherever the actual form allows. If no document attachment field exists, use stable public links in the story; do not assume a field.
+- [x] CareSwitch Devpost draft saved under DSH Hacks V2, submission 1227270; creator is the only team member.
+- [x] Both PDFs and runnable source are in CareSwitch-source.zip (23.44 MiB), attached in Additional Info. Public PDF links are saved in the story.
 - [ ] Upload actual 2-3 minute video and verify viewer access.
-- [ ] Add GitHub, accessible demo and video URLs. Use project cover.
-- [ ] Review AI assistance disclosure, privacy, limitations, and third-party licenses.
+- [x] GitHub and public demo URLs, cover thumbnail and three gallery images saved.
+- [ ] Add the finished video URL; this required field is still blank.
+- [x] AI assistance, privacy, prototype limitations and third-party attribution documented. Student should review before submitting.
 - [ ] Review any required participant declarations with the student; do not invent answers or silently accept new legal agreements.
 - [ ] Submit only after required materials are attached and view the successful submission status on Devpost.
 
@@ -44,3 +45,9 @@ The creator reported that live camera/head control worked on their laptop after 
 ## Do not claim
 
 No diagnosis, treatment, emergency alert, caregiver contact, emotion or pain detection, eye-gaze tracking, clinical validation, every-language support, universal phone support, natural neural voice, or world's-first invention. Surrounding setup UI is English. Voice engine is rule-based; face landmarks are the AI component. A future benefit is a hypothesis until tested.
+
+## Prepared video and latest public-site check
+
+A 2:50 narrated screenshot walkthrough is prepared locally; it labels mouse practice mode and synthetic narration throughout. It is a draft, not a live head-control recording. A continuous real selection/confirmation clip and a supported public video-host link are still needed.
+
+Public GitHub Pages checks: interactive draft/Confirm works and English/Urdu built-in playback reaches completion. The first speech download timed out once; Read again succeeded. Actual pronunciation/audibility and physical-phone testing remain user checks.

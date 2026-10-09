@@ -1,8 +1,10 @@
 # CareSwitch
 
-A first hackathon prototype of a hands-free communication board. People who can voluntarily move their head can select a prepared message with a webcam-controlled **in-app** pointer. A separate confirmation step displays the message and attempts speech using a local device voice. It does not control the operating system, contact a caregiver, make an emergency call, diagnose, or infer pain/emotion.
+A first hackathon prototype of a hands-free communication board. People who can voluntarily move their head can select a prepared message with a webcam-controlled **in-app** pointer. A separate confirmation step displays the message and speaks using a matching local device voice or the bundled free speech engine. It does not control the operating system, contact a caregiver, make an emergency call, diagnose, or infer pain/emotion.
 
 ## Try it
+
+**[Open the free public demo](https://syedkaifali96.github.io/careswitch/)**
 
 Use the hosted HTTPS demo in a recent Chrome or Edge browser, preferably full screen on a laptop. Camera access is off by default.
 
@@ -14,6 +16,8 @@ Camera startup checks usable video frames rather than waiting indefinitely for t
 4. Guide the pointer to a card and hold for 1.5 seconds by default. Move away from the card, then hold on **Confirm** or **Cancel**. A draft is never spoken.
 5. **Pause head control** can be selected by dwell. Resume can also be selected by dwell. Settings adjust hold time, sensitivity, smoothing, and horizontal direction.
 6. Stop the camera with **Turn camera off**. Hiding the tab also stops camera access; restarting requires another user action.
+
+Camera startup checks usable video frames rather than waiting indefinitely for the browser’s `play()` promise. If frames do not arrive within 10 seconds, it stops the camera and reports the problem. A non-responsive tracker also stops instead of silently hanging. The setup dialog explains missing faces, multiple faces, or delayed tracking directly.
 
 Head control now defaults to **0.8Ã— sensitivity** and **Strong smoothing**. Lower sensitivity softens small movements while retaining the full calibrated range, so edge controls remain reachable without exceeding the setup movements. Three-sample median filtering removes isolated landmark spikes, an 8-pixel deadband suppresses small drift, and display-frame interpolation limits pointer travel to 480 pixels/second. This trades some response speed for easier holding. Settings can adjust sensitivity and smoothing. Filtering resets when tracking is lost; stale frames still cannot select a message.
 
@@ -58,3 +62,15 @@ The eSpeak NG npm distribution **1.0.2** is pinned, its SHA-512 integrity was ve
 Speech is synthesized in a separate local worker. Only the text language and message enter that worker; text is not put in a URL or sent to a server. The engine files are loaded from the same hosting origin. Mandarin maps to the cmn voice. Custom messages in the selected language are supported up to 160 characters. Pronunciation needs fluent-speaker review, particularly Urdu and Arabic; Arabic custom messages need full vowel marks. This does not provide automatic translation or guarantee every language/dialect.
 
 A camera/practice click prepares local audio for later hands-free confirmation. Clear, language/voice changes and tab hiding stop playback. A canceled generation cannot speak a stale message when it finishes. Failures preserve confirmed text. Read again reuses cached audio (up to eight messages in memory). The built-in engine is a rule-based formant synthesizer; the AI component remains the face-landmark model.
+
+## Submission materials
+
+The one-page description and first-party code PDF are in `docs/`. The public Devpost entry is still a draft: its required video link and final participant agreement are pending. `docs/submission-checklist.md` records completed and outstanding checks.
+
+A captioned 2:50 screenshot walkthrough is available at [the draft video page](https://syedkaifali96.github.io/careswitch/walkthrough.html). It uses mouse-mode screenshots and local synthetic narration; it does not demonstrate live head tracking. A real continuous head-control clip should be included in the final demo.
+
+The first free-voice use downloads about 18.5 MB of speech assets. On a slow connection it can time out; confirmed text remains visible and **Read again** retries.
+
+## Run the checks
+
+With Node.js installed, run `node tests/core-test.mjs`, `node tests/pointer-test.mjs`, `node tests/camera-test.mjs` and `node tests/speech-test.mjs`. These checks do not replace intended-user or physical-device testing.

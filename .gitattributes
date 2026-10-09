@@ -1,6 +1,7 @@
 * text=auto
 *.pdf binary
 *.png binary
+*.mp4 binary
 *.wasm binary
 *.task binary
 *.mjs text eol=lf
