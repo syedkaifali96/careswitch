@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';
+import {makeCalibration,mapPointer,DwellGate} from '../dist/core.mjs';
+const samples=Object.fromEntries(Object.entries({center:[.5,.5],left:[.6,.5],right:[.4,.5],up:[.5,.4],down:[.5,.6]}).map(([key,[x,y]])=>[key,Array.from({length:20},()=>({x,y}))]));
+const calibration=makeCalibration(samples);
+assert.deepEqual(mapPointer({x:.5,y:.5},calibration),{x:.5,y:.5});
+assert.ok(mapPointer({x:.6,y:.5},calibration).x<.001,'mirrored head movement must still map left');
+assert.ok(mapPointer({x:.4,y:.5},calibration).x>.999);
+assert.ok(mapPointer({x:.5,y:.4},calibration).y<.001);
+assert.equal(mapPointer({x:NaN,y:0},calibration),null);
+assert.throws(()=>makeCalibration({...samples,left:samples.center,right:samples.center}),/too small/);
+assert.throws(()=>makeCalibration({...samples,up:[]}),/Not enough/);
+const gate=new DwellGate(1500);let fired=[];
+for(let t=100;t<=3100;t+=100){const r=gate.update('yes',t);if(r.fire)fired.push(r.fire);}
+assert.deepEqual(fired,['yes'],'stationary pointer must select once');
+gate.update(null,3200);assert.equal(gate.update('yes',3300).fire,null);
+gate.reset();for(let t=100;t<=1100;t+=100)gate.update('confirm',t);
+assert.equal(gate.update('confirm',2000).progress,0,'tracking gap resets accumulated dwell');
+gate.update('confirm',2100,false);assert.equal(gate.update('confirm',2200).progress,0,'loss of tracking stops selection');
+gate.reset();gate.update('yes',100);gate.update('yes',300);assert.equal(gate.update('no',400).progress,0,'changing targets starts a fresh dwell');
+console.log('PASS: calibration directions/range, invalid input, duplicate selection, tracking loss, stale frames, target changes.');

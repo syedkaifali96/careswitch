@@ -10,12 +10,12 @@ Use the hosted HTTPS demo in a recent Chrome or Edge browser, preferably full sc
 2. **Enable camera** loads the on-device face model, then asks for browser permission. No microphone is requested.
 3. Follow center / left / right / up / down setup prompts using only comfortable movements. Setup needs one visible face and a distinguishable movement range.
 
-Camera startup checks usable video frames rather than waiting indefinitely for the browser’s `play()` promise. If frames do not arrive within 10 seconds, it stops the camera and reports the problem. A non-responsive tracker also stops instead of silently hanging. The setup dialog explains missing faces, multiple faces, or delayed tracking directly.
+Camera startup checks usable video frames rather than waiting indefinitely for the browserâ€™s `play()` promise. If frames do not arrive within 10 seconds, it stops the camera and reports the problem. A non-responsive tracker also stops instead of silently hanging. The setup dialog explains missing faces, multiple faces, or delayed tracking directly.
 4. Guide the pointer to a card and hold for 1.5 seconds by default. Move away from the card, then hold on **Confirm** or **Cancel**. A draft is never spoken.
 5. **Pause head control** can be selected by dwell. Resume can also be selected by dwell. Settings adjust hold time, sensitivity, smoothing, and horizontal direction.
 6. Stop the camera with **Turn camera off**. Hiding the tab also stops camera access; restarting requires another user action.
 
-Head control now defaults to **0.8× sensitivity** and **Strong smoothing**. Lower sensitivity softens small movements while retaining the full calibrated range, so edge controls remain reachable without exceeding the setup movements. Three-sample median filtering removes isolated landmark spikes, an 8-pixel deadband suppresses small drift, and display-frame interpolation limits pointer travel to 480 pixels/second. This trades some response speed for easier holding. Settings can adjust sensitivity and smoothing. Filtering resets when tracking is lost; stale frames still cannot select a message.
+Head control now defaults to **0.8Ã— sensitivity** and **Strong smoothing**. Lower sensitivity softens small movements while retaining the full calibrated range, so edge controls remain reachable without exceeding the setup movements. Three-sample median filtering removes isolated landmark spikes, an 8-pixel deadband suppresses small drift, and display-frame interpolation limits pointer travel to 480 pixels/second. This trades some response speed for easier holding. Settings can adjust sensitivity and smoothing. Filtering resets when tracking is lost; stale frames still cannot select a message.
 
 ## Scope and boundaries
 
@@ -49,7 +49,7 @@ AI assistance was used in planning, implementation, and debugging. The real AI c
 
 The communication board now uses a clearer cobalt-and-white theme, consistent message icons, readable text, larger touch targets, distinct draft confirmation, and an understated empty state. On mobile, tap-based messages appear before camera setup. Camera setup and Back to messages links connect the two areas. Once head control is calibrated, camera controls become compact while recalibration and camera-off actions remain available. Short screens use a denser layout to keep the six messages reachable. Settings and message editing dialogs scroll inside the viewport. Keyboard focus moves to confirmation and returns to the selected card. Resizing clears pending dwell selection.
 
-Mobile browsers need HTTPS, camera permission, and compatible camera/vision APIs. Chrome or Edge on a recent device is a recommended starting point. Responsive browser checks with a sample-video camera stream do not establish support or performance on every physical phone. Text messages work by touch without enabling the camera; speech still depends on local device voices.
+Mobile browsers need HTTPS, camera permission, and compatible camera/vision APIs. Chrome or Edge on a recent device is a recommended starting point. Responsive browser checks with a sample-video camera stream do not establish support or performance on every physical phone. Text messages work by touch without enabling the camera; speech can use local device voices or the bundled free engine.
 
 ## Free multilingual speech
 

@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';import {SpeechPlayer} from '../dist/speech.mjs';
+const flush=async()=>{for(let i=0;i<12;i++)await Promise.resolve();};
+let starts=0,stops=0,requests=[],statuses=[],utterances=[];
+const worker={postMessage:m=>requests.push(m),terminate:()=>{}};
+const context={state:'running',destination:{},decodeAudioData:async()=>({}),createBufferSource:()=>({connect(){},disconnect(){},start(){starts++;},stop(){stops++;}})};
+const native={getVoices:()=>[{lang:'en-US',localService:true},{lang:'ur-PK',localService:false}],cancel(){},speak:u=>utterances.push(u)};
+const p=new SpeechPlayer({onStatus:s=>statuses.push(s),synthesis:native,Utterance:class{constructor(t){this.text=t;}},contextFactory:()=>context,workerFactory:()=>worker,timeoutMs:2000});
+assert.equal(p.nativeVoice('ur'),null);p.speak({lang:'ur',text:'مجھے وقفہ چاہیے۔'});await flush();assert.equal(requests.length,1);const first=requests[0];p.cancel();worker.onmessage({data:{id:first.id,kind:'audio',wav:new ArrayBuffer(100)}});await flush();assert.equal(starts,0,'A canceled message must never play after synthesis finishes');
+p.speak({lang:'ur',text:'مجھے وقفہ چاہیے۔'});await flush();worker.onmessage({data:{id:requests[1].id,kind:'audio',wav:new ArrayBuffer(100)}});await flush();assert.equal(starts,1);p.cancel();assert.equal(stops,1);
+p.speak({lang:'en',text:'Yes.'});assert.equal(utterances.length,1);p.cancel();const before=statuses.length;utterances[0].onerror();utterances[0].onend();assert.equal(statuses.length,before,'Canceled native events must not change the current status');
+p.mode='basic';p.speak({lang:'en',text:'No.'});await flush();assert.equal(requests.at(-1).lang,'en');p.resetWorker();await flush();assert.match(statuses.at(-1),/Message displayed/);
+let blocked=[];const q=new SpeechPlayer({onStatus:s=>blocked.push(s),synthesis:null,contextFactory:()=>({...context,state:'suspended',resume:async()=>{}}),workerFactory:()=>worker});q.cache.set('ur\0نہیں۔',{});q.speak({lang:'ur',text:'نہیں۔'});await flush();assert.match(blocked.at(-1),/Tap Read again/);assert.equal(starts,1);
+console.log('PASS: local-only voice selection, stale audio cancellation, stop playback, canceled native callbacks, forced free voice, worker failure, and blocked audio fallback.');

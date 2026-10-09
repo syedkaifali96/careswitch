@@ -1,0 +1,10 @@
+CareSwitch uses espeak-ng npm package 1.0.2, unmodified runtime JavaScript and WebAssembly.
+Copyright eSpeak NG contributors and Ian Armour; GPL-3.0-or-later. Full license: LICENSE in this directory.
+Package source: https://github.com/ianmarmour/espeak-ng.js/tree/eec88dbcc1482b1a03a76cf9d2025a0acde8982e
+Pinned npm distribution: https://registry.npmjs.org/espeak-ng/-/espeak-ng-1.0.2.tgz
+Upstream speech-engine source: https://github.com/espeak-ng/espeak-ng
+Build instructions supplied by the package maintainer: upstream-build.md in this directory.
+Package SHA-512 integrity: Xe4YC7d/+O06zYpsqrJ3LpbETdL/IO8JrnAmWcQEMoRFmMLWU+2y2HnpEkOCnqZfb40MBDVyP4ppfusKdWbPcQ==
+CareSwitch adapter source: ../../speech.mjs and ../../speech-worker.mjs.
+The built-in voice is a formant synthesizer, not a neural model or a cloned human voice.
+Language coverage and pronunciation vary; Arabic requires vowel marks. Mandarin uses voice cmn.
